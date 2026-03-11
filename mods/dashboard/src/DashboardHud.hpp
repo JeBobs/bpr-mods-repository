@@ -9,6 +9,7 @@
 
 #include "DashboardConfigFile.hpp"
 #include "DashboardTexture.hpp"
+#include "DashboardElements.hpp"
 
 
 class DashboardHud
@@ -26,9 +27,9 @@ public:
     void OnRenderOverlay();
 
 private:
-    void RenderTextureSegment(const ImVec2& position, DashboardTexture::TextureSegment textureSegment, bool useColor = true) const;
-    void RenderText(const ImVec2& position, const char* text, float size) const;
-    void RenderNeedle(const ImVec2& position, float value, float minValue, float maxValue) const;
+    void RenderTextureSegment(const TextureElement& properties, DashboardTexture::TextureSegment textureSegment) const;
+    void RenderText(const TextElement& properties, const char* text) const;
+    void RenderNeedle(const NeedleElement& properties, float value, float minValue, float maxValue) const;
 
 private:
     DashboardConfigFile& m_DashboardConfigFile;

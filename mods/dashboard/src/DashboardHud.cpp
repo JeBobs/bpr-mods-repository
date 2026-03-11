@@ -111,7 +111,6 @@ void DashboardHud::OnRenderMenu()
             ImGui::Checkbox("Metric Units", &config.MetricUnits);
             ImGui::SliderFloat("Opacity", &config.Opacity, 0.0f, 100.0f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
             ImGui::SliderFloat("Scale", &config.Scale, 0.1f, 5.0f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
-            ImGui::SliderFloat("Font Scale", &config.FontScale, 0.5f, 2.0f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
 
             {
                 auto renderColorEdit = [](const char* label, uint32_t& configColor)
@@ -122,12 +121,6 @@ void DashboardHud::OnRenderMenu()
                         configColor = color;
                     }
                 };
-                
-                ImGui::SeparatorText("Colors");
-
-                renderColorEdit("Dial", config.Colors.Dial);
-                renderColorEdit("Text", config.Colors.Text);
-                renderColorEdit("Needle", config.Colors.Needle);
             }
         }
     }
@@ -161,10 +154,23 @@ void DashboardHud::OnRenderOverlay()
         char speedText[8] = {};
         sprintf_s(speedText, "%d", speed);
 
-        RenderTextureSegment(ImVec2(-128.0f, 72.0f), DashboardTexture::TextureSegment::Background, false);
-        RenderTextureSegment(ImVec2(-128.0f, 72.0f), config.MetricUnits ? DashboardTexture::TextureSegment::KMH : DashboardTexture::TextureSegment::MPH);
-        RenderText(ImVec2(-128.0f, 102.0f), speedText, 29.0f);
-        RenderNeedle(ImVec2(-128.0f, 72.0f), static_cast<float>(speed), 0.0f, config.MetricUnits ? 360.0f : 240.0f);
+        if (config.Elements.SpeedBackgroundTexture.Enabled)
+        {
+            RenderTextureSegment(config.Elements.SpeedBackgroundTexture, DashboardTexture::TextureSegment::Background);
+        }
+        if (config.Elements.SpeedDialTexture.Enabled)
+        {
+            RenderTextureSegment(config.Elements.SpeedDialTexture, config.MetricUnits ? DashboardTexture::TextureSegment::KMH : DashboardTexture::TextureSegment::MPH);
+        }
+        
+        if (config.Elements.SpeedText.Enabled)
+        {
+            RenderText(config.Elements.SpeedText, speedText);
+        }
+        if (config.Elements.SpeedNeedle.Enabled)
+        {
+            RenderNeedle(config.Elements.SpeedNeedle, static_cast<float>(speed), 0.0f, config.MetricUnits ? 360.0f : 240.0f);
+        }
     }
 
     // Trip meter
@@ -174,7 +180,10 @@ void DashboardHud::OnRenderOverlay()
         char tripMeterText[16] = {};
         sprintf_s(tripMeterText, "%.1f", tripMeter);
 
-        RenderText(ImVec2(-128.0f, 69.0f), tripMeterText, 24.0f);
+        if (config.Elements.TripMeterText.Enabled)
+        {
+            RenderText(config.Elements.TripMeterText, tripMeterText);
+        }
     }
 
     // Odometer
@@ -184,7 +193,10 @@ void DashboardHud::OnRenderOverlay()
         char odometerText[16] = {};
         sprintf_s(odometerText, "%06d", odometer);
 
-        RenderText(ImVec2(-128.0f, 42.0f), odometerText, 29.0f);
+        if (config.Elements.OdometerText.Enabled)
+        {
+            RenderText(config.Elements.OdometerText, odometerText);
+        }
     }
 
     // RPM
@@ -194,10 +206,23 @@ void DashboardHud::OnRenderOverlay()
         char rpmText[8] = {};
         sprintf_s(rpmText, "%d", rpm);
 
-        RenderTextureSegment(ImVec2(128.0f, 72.0f), DashboardTexture::TextureSegment::Background, false);
-        RenderTextureSegment(ImVec2(128.0f, 72.0f), DashboardTexture::TextureSegment::RPM);
-        RenderText(ImVec2(128.0f, 102.0f), rpmText, 29.0f);
-        RenderNeedle(ImVec2(128.0f, 72.0f), static_cast<float>(rpm), 0.0f, 12000.0f);
+        if (config.Elements.RPMBackgroundTexture.Enabled)
+        {
+            RenderTextureSegment(config.Elements.RPMBackgroundTexture, DashboardTexture::TextureSegment::Background);
+        }
+        if (config.Elements.RPMDialTexture.Enabled)
+        {
+            RenderTextureSegment(config.Elements.RPMDialTexture, DashboardTexture::TextureSegment::RPM);
+        }
+
+        if (config.Elements.RPMText.Enabled)
+        {
+            RenderText(config.Elements.RPMText, rpmText);
+        }
+        if (config.Elements.RPMNeedle.Enabled)
+        {
+            RenderNeedle(config.Elements.RPMNeedle, static_cast<float>(rpm), 0.0f, 12000.0f);
+        }
     }
 
     // Gear
@@ -206,7 +231,10 @@ void DashboardHud::OnRenderOverlay()
 
         static constexpr char gears[][2] = { "R", "1", "2", "3", "4", "5" };
 
-        RenderText(ImVec2(128.0f, 70.0f), gears[gear], 37.0f);
+        if (config.Elements.CurrentGearText.Enabled)
+        {
+            RenderText(config.Elements.CurrentGearText, gears[gear]);
+        }
     }
 
     // Local Time
@@ -217,20 +245,23 @@ void DashboardHud::OnRenderOverlay()
         char localTimeText[8] = {};
         sprintf_s(localTimeText, "%02d:%02d", localTime.wHour, localTime.wMinute);
 
-        RenderText(ImVec2(128.0f, 42.0f), localTimeText, 29.0f);
+        if (config.Elements.LocalTimeText.Enabled)
+        {
+            RenderText(config.Elements.LocalTimeText, localTimeText);
+        }
     }
 }
 
-void DashboardHud::RenderTextureSegment(const ImVec2& position, DashboardTexture::TextureSegment textureSegment, bool useColor) const
+void DashboardHud::RenderTextureSegment(const TextureElement& properties, DashboardTexture::TextureSegment textureSegment) const
 {
     const DashboardConfig& config = m_DashboardConfigFile.GetDashboardConfig();
     
-    ImVec2 segmentSize = ImVec2(256.0f * config.Scale, 256.0f * config.Scale);
-    ImColor color = ApplyOpacityToColor(useColor ? config.Colors.Dial : IM_COL32_WHITE, config.Opacity);
+    ImVec2 segmentSize = ImVec2(properties.Size.x * config.Scale, properties.Size.y * config.Scale);
+    ImColor color = ApplyOpacityToColor(properties.Color, config.Opacity);
 
     DashboardTexture::TextureSegmentUVs uv = m_DashboardTexture.GetTextureSegmentUVs(textureSegment);
 
-    ImVec2 absolutePosition = GetAbsolutePosition(position, config.Scale);
+    ImVec2 absolutePosition = GetAbsolutePosition(properties.Position, config.Scale);
     float l = absolutePosition.x - segmentSize.x / 2.0f;
     float r = absolutePosition.x + segmentSize.x / 2.0f;
     float t = absolutePosition.y - segmentSize.y / 2.0f;
@@ -240,16 +271,16 @@ void DashboardHud::RenderTextureSegment(const ImVec2& position, DashboardTexture
     foregroundDrawList->AddImage(reinterpret_cast<ImTextureID>(m_DashboardTexture.GetTextureView()), ImVec2(l, t), ImVec2(r, b), ImVec2(uv.Left, uv.Top), ImVec2(uv.Right, uv.Bottom), color);
 }
 
-void DashboardHud::RenderText(const ImVec2& position, const char* text, float size) const
+void DashboardHud::RenderText(const TextElement& properties, const char* text) const
 {
     const DashboardConfig& config = m_DashboardConfigFile.GetDashboardConfig();
     
-    float fontSize = size * config.FontScale * config.Scale;
-    ImColor color = ApplyOpacityToColor(config.Colors.Text, config.Opacity);
+    float fontSize = properties.TextSize * config.Scale;
+    ImColor color = ApplyOpacityToColor(properties.Color, config.Opacity);
 
     ImVec2 textSize = m_Font->CalcTextSizeA(fontSize, FLT_MAX, 0.0f, text);
     
-    ImVec2 absolutePosition = GetAbsolutePosition(position, config.Scale);
+    ImVec2 absolutePosition = GetAbsolutePosition(properties.Position, config.Scale);
     float x = absolutePosition.x - textSize.x / 2.0f;
     float y = absolutePosition.y - textSize.y / 2.0f;
 
@@ -257,23 +288,23 @@ void DashboardHud::RenderText(const ImVec2& position, const char* text, float si
     foregroundDrawList->AddText(m_Font, fontSize, ImVec2(x, y), color, text);
 }
 
-void DashboardHud::RenderNeedle(const ImVec2& position, float value, float minValue, float maxValue) const
+void DashboardHud::RenderNeedle(const NeedleElement& properties, float value, float minValue, float maxValue) const
 {
     const DashboardConfig& config = m_DashboardConfigFile.GetDashboardConfig();
     
-    constexpr float minAngle = DirectX::XMConvertToRadians(-225.0f);
-    constexpr float maxAngle = DirectX::XMConvertToRadians(45.0f);
-    float thickness = 3.0f * config.Scale;
-    float innerRadius = 68.0f * config.Scale;
-    float outerRadius = 103.0f * config.Scale;
-    ImColor color = ApplyOpacityToColor(config.Colors.Needle, config.Opacity);
+    float minAngle = DirectX::XMConvertToRadians(properties.MinAngle);
+    float maxAngle = DirectX::XMConvertToRadians(properties.MaxAngle);
+    float thickness = properties.Thickness * config.Scale;
+    float innerRadius = properties.InnerRadius * config.Scale;
+    float outerRadius = properties.OuterRadius * config.Scale;
+    ImColor color = ApplyOpacityToColor(properties.Color, config.Opacity);
 
     value = std::clamp(value, minValue, maxValue);
     float angle = minAngle + (maxAngle - minAngle) * ((value - minValue) / (maxValue - minValue));
     float angleSin = 0.0f, angleCos = 0.0f;
     DirectX::XMScalarSinCos(&angleSin, &angleCos, angle);
 
-    ImVec2 absolutePosition = GetAbsolutePosition(position, config.Scale);
+    ImVec2 absolutePosition = GetAbsolutePosition(properties.Position, config.Scale);
     float x1 = absolutePosition.x + angleCos * innerRadius;
     float y1 = absolutePosition.y + angleSin * innerRadius;
     float x2 = absolutePosition.x + angleCos * outerRadius;
