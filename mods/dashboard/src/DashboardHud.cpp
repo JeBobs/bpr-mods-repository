@@ -100,6 +100,13 @@ void DashboardHud::OnRenderMenu()
             {
                 m_DashboardConfigFile.Load();
             }
+
+            ImGui::SameLine();
+
+            if (ImGui::Button("Reload Texture##dashboard-texture"))
+            {
+                LoadTexture();
+            }
         }
 
         ImGui::Separator();
