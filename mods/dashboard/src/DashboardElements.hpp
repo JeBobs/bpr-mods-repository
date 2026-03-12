@@ -11,9 +11,17 @@ struct Element
     ImVec2 Position = ImVec2(0.0f, 0.0f);
 };
 
+enum class TextAlignment : int32_t
+{
+    Left = 0,
+    Center = 1,
+    Right = 2
+};
+
 struct TextElement : Element
 {
     float TextSize = 29.0f;
+    TextAlignment Alignment = TextAlignment::Center;
 };
 
 struct NeedleElement : Element

@@ -173,6 +173,14 @@ void DashboardConfigFile::Load()
                         if (node["Enabled"])  m_DashboardConfig.Elements.SpeedText.Enabled = node["Enabled"].as<bool>();
                         if (node["Color"])    m_DashboardConfig.Elements.SpeedText.Color = node["Color"].as<uint32_t>();
                         if (node["TextSize"]) m_DashboardConfig.Elements.SpeedText.TextSize = node["TextSize"].as<float>();
+                        if (node["Alignment"])
+                        {
+                            int32_t alignment = node["Alignment"].as<int32_t>();
+                            if (alignment >= static_cast<int32_t>(TextAlignment::Left) && alignment <= static_cast<int32_t>(TextAlignment::Right))
+                            {
+                                m_DashboardConfig.Elements.SpeedText.Alignment = static_cast<TextAlignment>(alignment);
+                            }
+                        }
 
                         YAML::Node positionNode = node["Position"];
                         if (positionNode)
@@ -190,6 +198,14 @@ void DashboardConfigFile::Load()
                         if (node["Enabled"])  m_DashboardConfig.Elements.TripMeterText.Enabled = node["Enabled"].as<bool>();
                         if (node["Color"])    m_DashboardConfig.Elements.TripMeterText.Color = node["Color"].as<uint32_t>();
                         if (node["TextSize"]) m_DashboardConfig.Elements.TripMeterText.TextSize = node["TextSize"].as<float>();
+                        if (node["Alignment"])
+                        {
+                            int32_t alignment = node["Alignment"].as<int32_t>();
+                            if (alignment >= static_cast<int32_t>(TextAlignment::Left) && alignment <= static_cast<int32_t>(TextAlignment::Right))
+                            {
+                                m_DashboardConfig.Elements.TripMeterText.Alignment = static_cast<TextAlignment>(alignment);
+                            }
+                        }
 
                         YAML::Node positionNode = node["Position"];
                         if (positionNode)
@@ -207,6 +223,14 @@ void DashboardConfigFile::Load()
                         if (node["Enabled"])  m_DashboardConfig.Elements.OdometerText.Enabled = node["Enabled"].as<bool>();
                         if (node["Color"])    m_DashboardConfig.Elements.OdometerText.Color = node["Color"].as<uint32_t>();
                         if (node["TextSize"]) m_DashboardConfig.Elements.OdometerText.TextSize = node["TextSize"].as<float>();
+                        if (node["Alignment"])
+                        {
+                            int32_t alignment = node["Alignment"].as<int32_t>();
+                            if (alignment >= static_cast<int32_t>(TextAlignment::Left) && alignment <= static_cast<int32_t>(TextAlignment::Right))
+                            {
+                                m_DashboardConfig.Elements.OdometerText.Alignment = static_cast<TextAlignment>(alignment);
+                            }
+                        }
 
                         YAML::Node positionNode = node["Position"];
                         if (positionNode)
@@ -224,6 +248,14 @@ void DashboardConfigFile::Load()
                         if (node["Enabled"])  m_DashboardConfig.Elements.RPMText.Enabled = node["Enabled"].as<bool>();
                         if (node["Color"])    m_DashboardConfig.Elements.RPMText.Color = node["Color"].as<uint32_t>();
                         if (node["TextSize"]) m_DashboardConfig.Elements.RPMText.TextSize = node["TextSize"].as<float>();
+                        if (node["Alignment"])
+                        {
+                            int32_t alignment = node["Alignment"].as<int32_t>();
+                            if (alignment >= static_cast<int32_t>(TextAlignment::Left) && alignment <= static_cast<int32_t>(TextAlignment::Right))
+                            {
+                                m_DashboardConfig.Elements.RPMText.Alignment = static_cast<TextAlignment>(alignment);
+                            }
+                        }
 
                         YAML::Node positionNode = node["Position"];
                         if (positionNode)
@@ -241,6 +273,14 @@ void DashboardConfigFile::Load()
                         if (node["Enabled"])  m_DashboardConfig.Elements.LocalTimeText.Enabled = node["Enabled"].as<bool>();
                         if (node["Color"])    m_DashboardConfig.Elements.LocalTimeText.Color = node["Color"].as<uint32_t>();
                         if (node["TextSize"]) m_DashboardConfig.Elements.LocalTimeText.TextSize = node["TextSize"].as<float>();
+                        if (node["Alignment"])
+                        {
+                            int32_t alignment = node["Alignment"].as<int32_t>();
+                            if (alignment >= static_cast<int32_t>(TextAlignment::Left) && alignment <= static_cast<int32_t>(TextAlignment::Right))
+                            {
+                                m_DashboardConfig.Elements.LocalTimeText.Alignment = static_cast<TextAlignment>(alignment);
+                            }
+                        }
 
                         YAML::Node positionNode = node["Position"];
                         if (positionNode)
@@ -258,6 +298,14 @@ void DashboardConfigFile::Load()
                         if (node["Enabled"])  m_DashboardConfig.Elements.CurrentGearText.Enabled = node["Enabled"].as<bool>();
                         if (node["Color"])    m_DashboardConfig.Elements.CurrentGearText.Color = node["Color"].as<uint32_t>();
                         if (node["TextSize"]) m_DashboardConfig.Elements.CurrentGearText.TextSize = node["TextSize"].as<float>();
+                        if (node["Alignment"])
+                        {
+                            int32_t alignment = node["Alignment"].as<int32_t>();
+                            if (alignment >= static_cast<int32_t>(TextAlignment::Left) && alignment <= static_cast<int32_t>(TextAlignment::Right))
+                            {
+                                m_DashboardConfig.Elements.CurrentGearText.Alignment = static_cast<TextAlignment>(alignment);
+                            }
+                        }
 
                         YAML::Node positionNode = node["Position"];
                         if (positionNode)
@@ -407,6 +455,7 @@ void DashboardConfigFile::Save() const
                 node["Enabled"] = m_DashboardConfig.Elements.SpeedText.Enabled;
                 node["Color"] = m_DashboardConfig.Elements.SpeedText.Color;
                 node["TextSize"] = m_DashboardConfig.Elements.SpeedText.TextSize;
+                node["Alignment"] = static_cast<int32_t>(m_DashboardConfig.Elements.SpeedText.Alignment);
 
                 YAML::Node positionNode;
                 positionNode["X"] = m_DashboardConfig.Elements.SpeedText.Position.x;
@@ -421,6 +470,7 @@ void DashboardConfigFile::Save() const
                 node["Enabled"] = m_DashboardConfig.Elements.TripMeterText.Enabled;
                 node["Color"] = m_DashboardConfig.Elements.TripMeterText.Color;
                 node["TextSize"] = m_DashboardConfig.Elements.TripMeterText.TextSize;
+                node["Alignment"] = static_cast<int32_t>(m_DashboardConfig.Elements.TripMeterText.Alignment);
 
                 YAML::Node positionNode;
                 positionNode["X"] = m_DashboardConfig.Elements.TripMeterText.Position.x;
@@ -435,6 +485,7 @@ void DashboardConfigFile::Save() const
                 node["Enabled"] = m_DashboardConfig.Elements.OdometerText.Enabled;
                 node["Color"] = m_DashboardConfig.Elements.OdometerText.Color;
                 node["TextSize"] = m_DashboardConfig.Elements.OdometerText.TextSize;
+                node["Alignment"] = static_cast<int32_t>(m_DashboardConfig.Elements.OdometerText.Alignment);
 
                 YAML::Node positionNode;
                 positionNode["X"] = m_DashboardConfig.Elements.OdometerText.Position.x;
@@ -449,6 +500,7 @@ void DashboardConfigFile::Save() const
                 node["Enabled"] = m_DashboardConfig.Elements.RPMText.Enabled;
                 node["Color"] = m_DashboardConfig.Elements.RPMText.Color;
                 node["TextSize"] = m_DashboardConfig.Elements.RPMText.TextSize;
+                node["Alignment"] = static_cast<int32_t>(m_DashboardConfig.Elements.RPMText.Alignment);
 
                 YAML::Node positionNode;
                 positionNode["X"] = m_DashboardConfig.Elements.RPMText.Position.x;
@@ -463,6 +515,7 @@ void DashboardConfigFile::Save() const
                 node["Enabled"] = m_DashboardConfig.Elements.LocalTimeText.Enabled;
                 node["Color"] = m_DashboardConfig.Elements.LocalTimeText.Color;
                 node["TextSize"] = m_DashboardConfig.Elements.LocalTimeText.TextSize;
+                node["Alignment"] = static_cast<int32_t>(m_DashboardConfig.Elements.LocalTimeText.Alignment);
 
                 YAML::Node positionNode;
                 positionNode["X"] = m_DashboardConfig.Elements.LocalTimeText.Position.x;
@@ -477,6 +530,7 @@ void DashboardConfigFile::Save() const
                 node["Enabled"] = m_DashboardConfig.Elements.CurrentGearText.Enabled;
                 node["Color"] = m_DashboardConfig.Elements.CurrentGearText.Color;
                 node["TextSize"] = m_DashboardConfig.Elements.CurrentGearText.TextSize;
+                node["Alignment"] = static_cast<int32_t>(m_DashboardConfig.Elements.CurrentGearText.Alignment);
 
                 YAML::Node positionNode;
                 positionNode["X"] = m_DashboardConfig.Elements.CurrentGearText.Position.x;

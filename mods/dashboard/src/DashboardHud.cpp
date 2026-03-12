@@ -151,6 +151,14 @@ void DashboardHud::OnRenderMenu()
                 {
                     renderElementEditor(element);
                     ImGui::DragFloat("Text Size", &element.TextSize, 0.1f, 1.0f, 200.0f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+
+                    static const char* textAlignmentNames[] = { "Left", "Center", "Right" };
+                    int textAlignment = static_cast<int>(element.Alignment);
+                    if (ImGui::Combo("Alignment", &textAlignment, textAlignmentNames, IM_ARRAYSIZE(textAlignmentNames)))
+                    {
+                        element.Alignment = static_cast<TextAlignment>(textAlignment);
+                    }
+
                     ImGui::TreePop();
                 }
             };
@@ -342,7 +350,19 @@ void DashboardHud::RenderText(const TextElement& properties, const char* text) c
     ImVec2 textSize = m_Font->CalcTextSizeA(fontSize, FLT_MAX, 0.0f, text);
     
     ImVec2 absolutePosition = GetAbsolutePosition(properties.Position, config.Scale);
-    float x = absolutePosition.x - textSize.x / 2.0f;
+    float x = absolutePosition.x;
+    switch (properties.Alignment)
+    {
+        case TextAlignment::Left:
+            break;
+        case TextAlignment::Right:
+            x -= textSize.x;
+            break;
+        case TextAlignment::Center:
+        default:
+            x -= textSize.x / 2.0f;
+            break;
+    }
     float y = absolutePosition.y - textSize.y / 2.0f;
 
     ImDrawList* foregroundDrawList = ImGui::GetForegroundDrawList();
