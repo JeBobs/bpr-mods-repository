@@ -19,7 +19,7 @@ static ImVec2 GetAbsolutePosition(const ImVec2& position, float scale)
 
 static ImColor ApplyOpacityToColor(ImColor color, float opacity)
 {
-    color.Value.w = opacity / 100.0f;
+    color.Value.w *= opacity / 100.0f;
     return color;
 }
 
@@ -112,16 +112,70 @@ void DashboardHud::OnRenderMenu()
             ImGui::SliderFloat("Opacity", &config.Opacity, 0.0f, 100.0f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
             ImGui::SliderFloat("Scale", &config.Scale, 0.1f, 5.0f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
 
+            auto renderColorEdit = [](const char* label, uint32_t& colorValue)
             {
-                auto renderColorEdit = [](const char* label, uint32_t& configColor)
+                ImVec4 color = ImGui::ColorConvertU32ToFloat4(colorValue);
+                if (ImGui::ColorEdit4(label, reinterpret_cast<float*>(&color)))
                 {
-                    ImColor color = configColor;
-                    if (ImGui::ColorEdit3(label, reinterpret_cast<float*>(&color.Value)))
-                    {
-                        configColor = color;
-                    }
-                };
-            }
+                    colorValue = ImGui::ColorConvertFloat4ToU32(color);
+                }
+            };
+
+            auto renderElementEditor = [&](Element& element)
+            {
+                ImGui::Checkbox("Enabled", &element.Enabled);
+                renderColorEdit("Color", element.Color);
+                ImGui::DragFloat2("Position", reinterpret_cast<float*>(&element.Position), 1.0f);
+            };
+
+            auto renderTextureElementEditor = [&](const char* label, TextureElement& element)
+            {
+                if (ImGui::TreeNode(label))
+                {
+                    renderElementEditor(element);
+                    ImGui::DragFloat2("Size", reinterpret_cast<float*>(&element.Size), 1.0f, 1.0f, 1024.0f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+                    ImGui::TreePop();
+                }
+            };
+
+            auto renderTextElementEditor = [&](const char* label, TextElement& element)
+            {
+                if (ImGui::TreeNode(label))
+                {
+                    renderElementEditor(element);
+                    ImGui::DragFloat("Text Size", &element.TextSize, 0.1f, 1.0f, 200.0f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+                    ImGui::TreePop();
+                }
+            };
+
+            auto renderNeedleElementEditor = [&](const char* label, NeedleElement& element)
+            {
+                if (ImGui::TreeNode(label))
+                {
+                    renderElementEditor(element);
+                    ImGui::DragFloat("Thickness", &element.Thickness, 0.1f, 0.1f, 50.0f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+                    ImGui::DragFloat("Inner Radius", &element.InnerRadius, 0.1f, 0.0f, 500.0f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+                    ImGui::DragFloat("Outer Radius", &element.OuterRadius, 0.1f, 0.0f, 500.0f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+                    ImGui::DragFloat("Min Angle", &element.MinAngle, 0.1f, -360.0f, 360.0f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+                    ImGui::DragFloat("Max Angle", &element.MaxAngle, 0.1f, -360.0f, 360.0f, "%.1f", ImGuiSliderFlags_AlwaysClamp);
+                    ImGui::TreePop();
+                }
+            };
+
+            ImGui::SeparatorText("Elements");
+            renderTextureElementEditor("Speed Background Texture", config.Elements.SpeedBackgroundTexture);
+            renderTextureElementEditor("Speed Dial Texture", config.Elements.SpeedDialTexture);
+            renderNeedleElementEditor("Speed Needle", config.Elements.SpeedNeedle);
+            renderTextElementEditor("Speed Text", config.Elements.SpeedText);
+            renderTextElementEditor("Trip Meter Text", config.Elements.TripMeterText);
+            renderTextElementEditor("Odometer Text", config.Elements.OdometerText);
+
+            renderTextureElementEditor("RPM Background Texture", config.Elements.RPMBackgroundTexture);
+            renderTextureElementEditor("RPM Dial Texture", config.Elements.RPMDialTexture);
+            renderNeedleElementEditor("RPM Needle", config.Elements.RPMNeedle);
+            renderTextElementEditor("RPM Text", config.Elements.RPMText);
+            renderTextElementEditor("Current Gear Text", config.Elements.CurrentGearText);
+            renderTextElementEditor("Local Time Text", config.Elements.LocalTimeText);
         }
     }
 }
