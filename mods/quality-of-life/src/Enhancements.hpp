@@ -18,4 +18,5 @@ private:
     const Core::Logger& m_Logger;
 
     Core::Patch m_PatchAnyVehicleTypesOnline[2];
+    Core::Patch m_PatchDisableInfiniteGears;
 };
