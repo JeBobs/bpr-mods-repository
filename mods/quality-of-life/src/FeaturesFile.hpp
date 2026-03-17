@@ -23,6 +23,12 @@ struct ExtraSettingsFeatures
     bool DisableCursorClipping = true;
 };
 
+struct EnhancementsFeatures
+{
+    bool AnyVehicleTypeOnline = true;
+    bool DisableInfiniteGears = true;
+};
+
 struct RemovedStuffFeatures
 {
     bool CopsAndIslandPlayerIcons = true;
@@ -49,6 +55,7 @@ public:
 
     BugFixesFeatures& GetBugFixesFeatures();
     ExtraSettingsFeatures& GetExtraSettingsFeatures();
+    EnhancementsFeatures& GetEnhancementsFeatures();
     RemovedStuffFeatures& GetRemovedStuffFeatures();
     HiddenStuffFeatures& GetHiddenStuffFeatures();
 
@@ -58,6 +65,7 @@ private:
 
     BugFixesFeatures m_BugFixesFeatures;
     ExtraSettingsFeatures m_ExtraSettingsFeatures;
+    EnhancementsFeatures m_EnhancementsFeatures;
     RemovedStuffFeatures m_RemovedStuffFeatures;
     HiddenStuffFeatures m_HiddenStuffFeatures;
 };

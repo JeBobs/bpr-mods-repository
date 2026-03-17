@@ -38,6 +38,10 @@ void FeaturesFile::Load()
             m_ExtraSettingsFeatures.DisableWebcam         = extraSettingsNode["DisableWebcam"].as<bool>();
             m_ExtraSettingsFeatures.DisableCursorClipping = extraSettingsNode["DisableCursorClipping"].as<bool>();
 
+            YAML::Node enhancementsNode = yaml["Enhancements"];
+            m_EnhancementsFeatures.AnyVehicleTypeOnline = enhancementsNode["AnyVehicleTypeOnline"].as<bool>();
+            m_EnhancementsFeatures.DisableInfiniteGears = enhancementsNode["DisableInfiniteGears"].as<bool>();
+
             YAML::Node removedStuffNode = yaml["RemovedStuff"];
             m_RemovedStuffFeatures.CopsAndIslandPlayerIcons = removedStuffNode["CopsAndIslandPlayerIcons"].as<bool>();
             m_RemovedStuffFeatures.CarAchievements          = removedStuffNode["CarAchievements"].as<bool>();
@@ -82,6 +86,11 @@ void FeaturesFile::Save() const
             extraSettingsNode["DisableCursorClipping"] = m_ExtraSettingsFeatures.DisableCursorClipping;
             yaml["ExtraSettings"] = extraSettingsNode;
 
+            YAML::Node enhancementsNode;
+            enhancementsNode["AnyVehicleTypeOnline"] = m_EnhancementsFeatures.AnyVehicleTypeOnline;
+            enhancementsNode["DisableInfiniteGears"] = m_EnhancementsFeatures.DisableInfiniteGears;
+            yaml["Enhancements"] = enhancementsNode;
+
             YAML::Node removedStuffNode;
             removedStuffNode["CopsAndIslandPlayerIcons"] = m_RemovedStuffFeatures.CopsAndIslandPlayerIcons;
             removedStuffNode["CarAchievements"]          = m_RemovedStuffFeatures.CarAchievements;
@@ -112,6 +121,11 @@ BugFixesFeatures& FeaturesFile::GetBugFixesFeatures()
 ExtraSettingsFeatures& FeaturesFile::GetExtraSettingsFeatures()
 {
     return m_ExtraSettingsFeatures;
+}
+
+EnhancementsFeatures& FeaturesFile::GetEnhancementsFeatures()
+{
+    return m_EnhancementsFeatures;
 }
 
 RemovedStuffFeatures& FeaturesFile::GetRemovedStuffFeatures()
