@@ -31,6 +31,7 @@ void FeaturesFile::Load()
             m_BugFixesFeatures.IncorrectBikeRoadRules               = bugFixesNode["IncorrectBikeRoadRules"].as<bool>();
             m_BugFixesFeatures.IncorrectLobbyDeletedPopup           = bugFixesNode["IncorrectLobbyDeletedPopup"].as<bool>();
             m_BugFixesFeatures.DisabledWindow                       = bugFixesNode["DisabledWindow"].as<bool>();
+            m_BugFixesFeatures.LongUsernames                        = bugFixesNode["LongUsernames"].as<bool>();
 
             YAML::Node extraSettingsNode = yaml["ExtraSettings"];
             m_ExtraSettingsFeatures.Use24HourTimeFormat   = extraSettingsNode["Use24HourTimeFormat"].as<bool>();
@@ -77,6 +78,7 @@ void FeaturesFile::Save() const
             bugFixesNode["IncorrectBikeRoadRules"]               = m_BugFixesFeatures.IncorrectBikeRoadRules;
             bugFixesNode["IncorrectLobbyDeletedPopup"]           = m_BugFixesFeatures.IncorrectLobbyDeletedPopup;
             bugFixesNode["DisabledWindow"]                       = m_BugFixesFeatures.DisabledWindow;
+            bugFixesNode["LongUsernames"]                        = m_BugFixesFeatures.LongUsernames;
             yaml["BugFixes"] = bugFixesNode;
 
             YAML::Node extraSettingsNode;

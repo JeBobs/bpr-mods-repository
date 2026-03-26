@@ -13,6 +13,7 @@ struct BugFixesFeatures
     bool IncorrectBikeRoadRules = true;
     bool IncorrectLobbyDeletedPopup = true;
     bool DisabledWindow = true;
+    bool LongUsernames = true;
 };
 
 struct ExtraSettingsFeatures
