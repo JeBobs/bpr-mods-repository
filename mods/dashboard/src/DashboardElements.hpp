@@ -9,6 +9,7 @@ struct Element
     bool Enabled = true;
     uint32_t Color = 0xFFFFFFFF;
     ImVec2 Position = ImVec2(0.0f, 0.0f);
+    float Rotation = 0.0f;
 };
 
 enum class TextAlignment : int32_t

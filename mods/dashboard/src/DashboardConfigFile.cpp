@@ -38,6 +38,7 @@ void DashboardConfigFile::Load()
                     {
                         if (node["Enabled"]) m_DashboardConfig.Elements.SpeedBackgroundTexture.Enabled = node["Enabled"].as<bool>();
                         if (node["Color"])   m_DashboardConfig.Elements.SpeedBackgroundTexture.Color = node["Color"].as<uint32_t>();
+                        if (node["Rotation"]) m_DashboardConfig.Elements.SpeedBackgroundTexture.Rotation = node["Rotation"].as<float>();
 
                         YAML::Node positionNode = node["Position"];
                         if (positionNode)
@@ -61,6 +62,7 @@ void DashboardConfigFile::Load()
                     {
                         if (node["Enabled"]) m_DashboardConfig.Elements.SpeedDialTexture.Enabled = node["Enabled"].as<bool>();
                         if (node["Color"])   m_DashboardConfig.Elements.SpeedDialTexture.Color = node["Color"].as<uint32_t>();
+                        if (node["Rotation"]) m_DashboardConfig.Elements.SpeedDialTexture.Rotation = node["Rotation"].as<float>();
 
                         YAML::Node positionNode = node["Position"];
                         if (positionNode)
@@ -84,6 +86,7 @@ void DashboardConfigFile::Load()
                     {
                         if (node["Enabled"]) m_DashboardConfig.Elements.RPMBackgroundTexture.Enabled = node["Enabled"].as<bool>();
                         if (node["Color"])   m_DashboardConfig.Elements.RPMBackgroundTexture.Color = node["Color"].as<uint32_t>();
+                        if (node["Rotation"]) m_DashboardConfig.Elements.RPMBackgroundTexture.Rotation = node["Rotation"].as<float>();
 
                         YAML::Node positionNode = node["Position"];
                         if (positionNode)
@@ -107,6 +110,7 @@ void DashboardConfigFile::Load()
                     {
                         if (node["Enabled"]) m_DashboardConfig.Elements.RPMDialTexture.Enabled = node["Enabled"].as<bool>();
                         if (node["Color"])   m_DashboardConfig.Elements.RPMDialTexture.Color = node["Color"].as<uint32_t>();
+                        if (node["Rotation"]) m_DashboardConfig.Elements.RPMDialTexture.Rotation = node["Rotation"].as<float>();
 
                         YAML::Node positionNode = node["Position"];
                         if (positionNode)
@@ -130,6 +134,7 @@ void DashboardConfigFile::Load()
                     {
                         if (node["Enabled"])     m_DashboardConfig.Elements.RPMNeedle.Enabled = node["Enabled"].as<bool>();
                         if (node["Color"])       m_DashboardConfig.Elements.RPMNeedle.Color = node["Color"].as<uint32_t>();
+                        if (node["Rotation"])    m_DashboardConfig.Elements.RPMNeedle.Rotation = node["Rotation"].as<float>();
                         if (node["Thickness"])   m_DashboardConfig.Elements.RPMNeedle.Thickness = node["Thickness"].as<float>();
                         if (node["InnerRadius"]) m_DashboardConfig.Elements.RPMNeedle.InnerRadius = node["InnerRadius"].as<float>();
                         if (node["OuterRadius"]) m_DashboardConfig.Elements.RPMNeedle.OuterRadius = node["OuterRadius"].as<float>();
@@ -151,6 +156,7 @@ void DashboardConfigFile::Load()
                     {
                         if (node["Enabled"])     m_DashboardConfig.Elements.SpeedNeedle.Enabled = node["Enabled"].as<bool>();
                         if (node["Color"])       m_DashboardConfig.Elements.SpeedNeedle.Color = node["Color"].as<uint32_t>();
+                        if (node["Rotation"])    m_DashboardConfig.Elements.SpeedNeedle.Rotation = node["Rotation"].as<float>();
                         if (node["Thickness"])   m_DashboardConfig.Elements.SpeedNeedle.Thickness = node["Thickness"].as<float>();
                         if (node["InnerRadius"]) m_DashboardConfig.Elements.SpeedNeedle.InnerRadius = node["InnerRadius"].as<float>();
                         if (node["OuterRadius"]) m_DashboardConfig.Elements.SpeedNeedle.OuterRadius = node["OuterRadius"].as<float>();
@@ -172,6 +178,7 @@ void DashboardConfigFile::Load()
                     {
                         if (node["Enabled"])  m_DashboardConfig.Elements.SpeedText.Enabled = node["Enabled"].as<bool>();
                         if (node["Color"])    m_DashboardConfig.Elements.SpeedText.Color = node["Color"].as<uint32_t>();
+                        if (node["Rotation"]) m_DashboardConfig.Elements.SpeedText.Rotation = node["Rotation"].as<float>();
                         if (node["TextSize"]) m_DashboardConfig.Elements.SpeedText.TextSize = node["TextSize"].as<float>();
                         if (node["Alignment"])
                         {
@@ -197,6 +204,7 @@ void DashboardConfigFile::Load()
                     {
                         if (node["Enabled"])  m_DashboardConfig.Elements.TripMeterText.Enabled = node["Enabled"].as<bool>();
                         if (node["Color"])    m_DashboardConfig.Elements.TripMeterText.Color = node["Color"].as<uint32_t>();
+                        if (node["Rotation"]) m_DashboardConfig.Elements.TripMeterText.Rotation = node["Rotation"].as<float>();
                         if (node["TextSize"]) m_DashboardConfig.Elements.TripMeterText.TextSize = node["TextSize"].as<float>();
                         if (node["Alignment"])
                         {
@@ -222,6 +230,7 @@ void DashboardConfigFile::Load()
                     {
                         if (node["Enabled"])  m_DashboardConfig.Elements.OdometerText.Enabled = node["Enabled"].as<bool>();
                         if (node["Color"])    m_DashboardConfig.Elements.OdometerText.Color = node["Color"].as<uint32_t>();
+                        if (node["Rotation"]) m_DashboardConfig.Elements.OdometerText.Rotation = node["Rotation"].as<float>();
                         if (node["TextSize"]) m_DashboardConfig.Elements.OdometerText.TextSize = node["TextSize"].as<float>();
                         if (node["Alignment"])
                         {
@@ -247,6 +256,7 @@ void DashboardConfigFile::Load()
                     {
                         if (node["Enabled"])  m_DashboardConfig.Elements.RPMText.Enabled = node["Enabled"].as<bool>();
                         if (node["Color"])    m_DashboardConfig.Elements.RPMText.Color = node["Color"].as<uint32_t>();
+                        if (node["Rotation"]) m_DashboardConfig.Elements.RPMText.Rotation = node["Rotation"].as<float>();
                         if (node["TextSize"]) m_DashboardConfig.Elements.RPMText.TextSize = node["TextSize"].as<float>();
                         if (node["Alignment"])
                         {
@@ -272,6 +282,7 @@ void DashboardConfigFile::Load()
                     {
                         if (node["Enabled"])  m_DashboardConfig.Elements.LocalTimeText.Enabled = node["Enabled"].as<bool>();
                         if (node["Color"])    m_DashboardConfig.Elements.LocalTimeText.Color = node["Color"].as<uint32_t>();
+                        if (node["Rotation"]) m_DashboardConfig.Elements.LocalTimeText.Rotation = node["Rotation"].as<float>();
                         if (node["TextSize"]) m_DashboardConfig.Elements.LocalTimeText.TextSize = node["TextSize"].as<float>();
                         if (node["Alignment"])
                         {
@@ -297,6 +308,7 @@ void DashboardConfigFile::Load()
                     {
                         if (node["Enabled"])  m_DashboardConfig.Elements.CurrentGearText.Enabled = node["Enabled"].as<bool>();
                         if (node["Color"])    m_DashboardConfig.Elements.CurrentGearText.Color = node["Color"].as<uint32_t>();
+                        if (node["Rotation"]) m_DashboardConfig.Elements.CurrentGearText.Rotation = node["Rotation"].as<float>();
                         if (node["TextSize"]) m_DashboardConfig.Elements.CurrentGearText.TextSize = node["TextSize"].as<float>();
                         if (node["Alignment"])
                         {
@@ -346,6 +358,7 @@ void DashboardConfigFile::Save() const
                 YAML::Node node;
                 node["Enabled"] = m_DashboardConfig.Elements.SpeedBackgroundTexture.Enabled;
                 node["Color"] = m_DashboardConfig.Elements.SpeedBackgroundTexture.Color;
+                node["Rotation"] = m_DashboardConfig.Elements.SpeedBackgroundTexture.Rotation;
 
                 YAML::Node positionNode;
                 positionNode["X"] = m_DashboardConfig.Elements.SpeedBackgroundTexture.Position.x;
@@ -364,6 +377,7 @@ void DashboardConfigFile::Save() const
                 YAML::Node node;
                 node["Enabled"] = m_DashboardConfig.Elements.SpeedDialTexture.Enabled;
                 node["Color"] = m_DashboardConfig.Elements.SpeedDialTexture.Color;
+                node["Rotation"] = m_DashboardConfig.Elements.SpeedDialTexture.Rotation;
 
                 YAML::Node positionNode;
                 positionNode["X"] = m_DashboardConfig.Elements.SpeedDialTexture.Position.x;
@@ -382,6 +396,7 @@ void DashboardConfigFile::Save() const
                 YAML::Node node;
                 node["Enabled"] = m_DashboardConfig.Elements.RPMBackgroundTexture.Enabled;
                 node["Color"] = m_DashboardConfig.Elements.RPMBackgroundTexture.Color;
+                node["Rotation"] = m_DashboardConfig.Elements.RPMBackgroundTexture.Rotation;
 
                 YAML::Node positionNode;
                 positionNode["X"] = m_DashboardConfig.Elements.RPMBackgroundTexture.Position.x;
@@ -400,6 +415,7 @@ void DashboardConfigFile::Save() const
                 YAML::Node node;
                 node["Enabled"] = m_DashboardConfig.Elements.RPMDialTexture.Enabled;
                 node["Color"] = m_DashboardConfig.Elements.RPMDialTexture.Color;
+                node["Rotation"] = m_DashboardConfig.Elements.RPMDialTexture.Rotation;
 
                 YAML::Node positionNode;
                 positionNode["X"] = m_DashboardConfig.Elements.RPMDialTexture.Position.x;
@@ -418,6 +434,7 @@ void DashboardConfigFile::Save() const
                 YAML::Node node;
                 node["Enabled"] = m_DashboardConfig.Elements.RPMNeedle.Enabled;
                 node["Color"] = m_DashboardConfig.Elements.RPMNeedle.Color;
+                node["Rotation"] = m_DashboardConfig.Elements.RPMNeedle.Rotation;
                 node["Thickness"] = m_DashboardConfig.Elements.RPMNeedle.Thickness;
                 node["InnerRadius"] = m_DashboardConfig.Elements.RPMNeedle.InnerRadius;
                 node["OuterRadius"] = m_DashboardConfig.Elements.RPMNeedle.OuterRadius;
@@ -436,6 +453,7 @@ void DashboardConfigFile::Save() const
                 YAML::Node node;
                 node["Enabled"] = m_DashboardConfig.Elements.SpeedNeedle.Enabled;
                 node["Color"] = m_DashboardConfig.Elements.SpeedNeedle.Color;
+                node["Rotation"] = m_DashboardConfig.Elements.SpeedNeedle.Rotation;
                 node["Thickness"] = m_DashboardConfig.Elements.SpeedNeedle.Thickness;
                 node["InnerRadius"] = m_DashboardConfig.Elements.SpeedNeedle.InnerRadius;
                 node["OuterRadius"] = m_DashboardConfig.Elements.SpeedNeedle.OuterRadius;
@@ -454,6 +472,7 @@ void DashboardConfigFile::Save() const
                 YAML::Node node;
                 node["Enabled"] = m_DashboardConfig.Elements.SpeedText.Enabled;
                 node["Color"] = m_DashboardConfig.Elements.SpeedText.Color;
+                node["Rotation"] = m_DashboardConfig.Elements.SpeedText.Rotation;
                 node["TextSize"] = m_DashboardConfig.Elements.SpeedText.TextSize;
                 node["Alignment"] = static_cast<int32_t>(m_DashboardConfig.Elements.SpeedText.Alignment);
 
@@ -469,6 +488,7 @@ void DashboardConfigFile::Save() const
                 YAML::Node node;
                 node["Enabled"] = m_DashboardConfig.Elements.TripMeterText.Enabled;
                 node["Color"] = m_DashboardConfig.Elements.TripMeterText.Color;
+                node["Rotation"] = m_DashboardConfig.Elements.TripMeterText.Rotation;
                 node["TextSize"] = m_DashboardConfig.Elements.TripMeterText.TextSize;
                 node["Alignment"] = static_cast<int32_t>(m_DashboardConfig.Elements.TripMeterText.Alignment);
 
@@ -484,6 +504,7 @@ void DashboardConfigFile::Save() const
                 YAML::Node node;
                 node["Enabled"] = m_DashboardConfig.Elements.OdometerText.Enabled;
                 node["Color"] = m_DashboardConfig.Elements.OdometerText.Color;
+                node["Rotation"] = m_DashboardConfig.Elements.OdometerText.Rotation;
                 node["TextSize"] = m_DashboardConfig.Elements.OdometerText.TextSize;
                 node["Alignment"] = static_cast<int32_t>(m_DashboardConfig.Elements.OdometerText.Alignment);
 
@@ -499,6 +520,7 @@ void DashboardConfigFile::Save() const
                 YAML::Node node;
                 node["Enabled"] = m_DashboardConfig.Elements.RPMText.Enabled;
                 node["Color"] = m_DashboardConfig.Elements.RPMText.Color;
+                node["Rotation"] = m_DashboardConfig.Elements.RPMText.Rotation;
                 node["TextSize"] = m_DashboardConfig.Elements.RPMText.TextSize;
                 node["Alignment"] = static_cast<int32_t>(m_DashboardConfig.Elements.RPMText.Alignment);
 
@@ -514,6 +536,7 @@ void DashboardConfigFile::Save() const
                 YAML::Node node;
                 node["Enabled"] = m_DashboardConfig.Elements.LocalTimeText.Enabled;
                 node["Color"] = m_DashboardConfig.Elements.LocalTimeText.Color;
+                node["Rotation"] = m_DashboardConfig.Elements.LocalTimeText.Rotation;
                 node["TextSize"] = m_DashboardConfig.Elements.LocalTimeText.TextSize;
                 node["Alignment"] = static_cast<int32_t>(m_DashboardConfig.Elements.LocalTimeText.Alignment);
 
@@ -529,6 +552,7 @@ void DashboardConfigFile::Save() const
                 YAML::Node node;
                 node["Enabled"] = m_DashboardConfig.Elements.CurrentGearText.Enabled;
                 node["Color"] = m_DashboardConfig.Elements.CurrentGearText.Color;
+                node["Rotation"] = m_DashboardConfig.Elements.CurrentGearText.Rotation;
                 node["TextSize"] = m_DashboardConfig.Elements.CurrentGearText.TextSize;
                 node["Alignment"] = static_cast<int32_t>(m_DashboardConfig.Elements.CurrentGearText.Alignment);
 

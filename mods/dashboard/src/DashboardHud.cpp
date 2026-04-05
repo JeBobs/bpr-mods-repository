@@ -23,6 +23,48 @@ static ImColor ApplyOpacityToColor(ImColor color, float opacity)
     return color;
 }
 
+static ImVec2 RotatePoint(const ImVec2& point, const ImVec2& pivot, float angleDegrees)
+{
+    if (angleDegrees == 0.0f)
+    {
+        return point;
+    }
+
+    float angleRadians = DirectX::XMConvertToRadians(angleDegrees);
+    float angleSin = 0.0f, angleCos = 0.0f;
+    DirectX::XMScalarSinCos(&angleSin, &angleCos, angleRadians);
+
+    float x = point.x - pivot.x;
+    float y = point.y - pivot.y;
+
+    return ImVec2
+    (
+        pivot.x + x * angleCos - y * angleSin,
+        pivot.y + x * angleSin + y * angleCos
+    );
+}
+
+static void RotateDrawVertices(ImDrawList& drawList, int startVertexIndex, const ImVec2& pivot, float angleDegrees)
+{
+    if (startVertexIndex >= drawList.VtxBuffer.Size)
+    {
+        return;
+    }
+
+    float angleRadians = DirectX::XMConvertToRadians(angleDegrees);
+    float angleSin = 0.0f, angleCos = 0.0f;
+    DirectX::XMScalarSinCos(&angleSin, &angleCos, angleRadians);
+
+    for (int i = startVertexIndex; i < drawList.VtxBuffer.Size; ++i)
+    {
+        ImVec2& position = drawList.VtxBuffer[i].pos;
+        float x = position.x - pivot.x;
+        float y = position.y - pivot.y;
+        position.x = pivot.x + x * angleCos - y * angleSin;
+        position.y = pivot.y + x * angleSin + y * angleCos;
+    }
+}
+
 
 DashboardHud::DashboardHud(DashboardConfigFile& dashboardConfigFile, const Core::Path& assetsDirectory, const Core::Logger& logger)
     :
@@ -133,6 +175,7 @@ void DashboardHud::OnRenderMenu()
                 ImGui::Checkbox("Enabled", &element.Enabled);
                 renderColorEdit("Color", element.Color);
                 ImGui::DragFloat2("Position", reinterpret_cast<float*>(&element.Position), 1.0f);
+                ImGui::DragFloat("Rotation", &element.Rotation, 0.1f, 0.0f, 0.0f, "%.1f deg");
             };
 
             auto renderTextureElementEditor = [&](const char* label, TextureElement& element)
@@ -335,9 +378,26 @@ void DashboardHud::RenderTextureSegment(const TextureElement& properties, Dashbo
     float r = absolutePosition.x + segmentSize.x / 2.0f;
     float t = absolutePosition.y - segmentSize.y / 2.0f;
     float b = absolutePosition.y + segmentSize.y / 2.0f;
-    
+
+    ImVec2 topLeft = RotatePoint(ImVec2(l, t), absolutePosition, properties.Rotation);
+    ImVec2 topRight = RotatePoint(ImVec2(r, t), absolutePosition, properties.Rotation);
+    ImVec2 bottomRight = RotatePoint(ImVec2(r, b), absolutePosition, properties.Rotation);
+    ImVec2 bottomLeft = RotatePoint(ImVec2(l, b), absolutePosition, properties.Rotation);
+
     ImDrawList* foregroundDrawList = ImGui::GetForegroundDrawList();
-    foregroundDrawList->AddImage(reinterpret_cast<ImTextureID>(m_DashboardTexture.GetTextureView()), ImVec2(l, t), ImVec2(r, b), ImVec2(uv.Left, uv.Top), ImVec2(uv.Right, uv.Bottom), color);
+    foregroundDrawList->AddImageQuad
+    (
+        reinterpret_cast<ImTextureID>(m_DashboardTexture.GetTextureView()),
+        topLeft,
+        topRight,
+        bottomRight,
+        bottomLeft,
+        ImVec2(uv.Left, uv.Top),
+        ImVec2(uv.Right, uv.Top),
+        ImVec2(uv.Right, uv.Bottom),
+        ImVec2(uv.Left, uv.Bottom),
+        color
+    );
 }
 
 void DashboardHud::RenderText(const TextElement& properties, const char* text) const
@@ -366,7 +426,9 @@ void DashboardHud::RenderText(const TextElement& properties, const char* text) c
     float y = absolutePosition.y - textSize.y / 2.0f;
 
     ImDrawList* foregroundDrawList = ImGui::GetForegroundDrawList();
+    int startVertexIndex = foregroundDrawList->VtxBuffer.Size;
     foregroundDrawList->AddText(m_Font, fontSize, ImVec2(x, y), color, text);
+    RotateDrawVertices(*foregroundDrawList, startVertexIndex, absolutePosition, properties.Rotation);
 }
 
 void DashboardHud::RenderNeedle(const NeedleElement& properties, float value, float minValue, float maxValue) const
@@ -382,6 +444,7 @@ void DashboardHud::RenderNeedle(const NeedleElement& properties, float value, fl
 
     value = std::clamp(value, minValue, maxValue);
     float angle = minAngle + (maxAngle - minAngle) * ((value - minValue) / (maxValue - minValue));
+    angle += DirectX::XMConvertToRadians(properties.Rotation);
     float angleSin = 0.0f, angleCos = 0.0f;
     DirectX::XMScalarSinCos(&angleSin, &angleCos, angle);
 
