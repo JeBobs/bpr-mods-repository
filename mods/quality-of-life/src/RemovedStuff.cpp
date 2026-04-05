@@ -124,7 +124,7 @@ __declspec(naked) void RemovedStuff::DetourCrashCameraEffect()
 {
     static constexpr char wrecked[] = "Wrecked";
     static constexpr char crash[] = "Crash";
-    static constexpr float amount = 1.0f;
+    static constexpr float blendAmount = 1.0f;
 
     __asm
     {
@@ -135,7 +135,7 @@ __declspec(naked) void RemovedStuff::DetourCrashCameraEffect()
         mov edx, offset crash
         cmove eax, edx
 
-        movss xmm3, [amount]
+        movss xmm3, [blendAmount]
         mov edx, dword ptr [edi + 0x30]
         push eax
         lea ecx, [esi + 0x10]

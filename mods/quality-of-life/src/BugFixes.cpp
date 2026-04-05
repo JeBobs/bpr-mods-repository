@@ -23,7 +23,8 @@ BugFixes::BugFixes(const Core::Logger& logger, BugFixesFeatures& bugFixesFeature
     },
     m_PatchIncorrectBikeRoadRules(Core::Pointer(0x009E193A).GetAddress(), 2),
     m_PatchIncorrectLobbyDeletedPopup(Core::Pointer(0x00B27BE0).GetAddress(), 4),
-    m_PatchDisabledWindow(Core::Pointer(0x008FB6A3).GetAddress(), 7)
+    m_PatchDisabledWindow(Core::Pointer(0x008FB6A3).GetAddress(), 7),
+    m_PatchLongUsernames(Core::Pointer(0x06268257).GetAddress(), 6)
 {
 }
 
@@ -101,10 +102,34 @@ void BugFixes::Load()
             m_Logger.Info("Applied disabled window patch.");
         }
     }
+
+    if (m_BugFixesFeatures.LongUsernames)
+    {
+        // Apply long usernames patch.
+        {
+            m_Logger.Info("Applying long usernames patch...");
+
+            m_PatchLongUsernames.Apply("\xB8\xFF\xFF\xFF\xFF\x90");
+
+            m_Logger.Info("Applied long usernames patch.");
+        }
+    }
 }
 
 void BugFixes::Unload()
 {
+    if (m_BugFixesFeatures.LongUsernames)
+    {
+        // Remove long usernames patch.
+        {
+            m_Logger.Info("Removing long usernames patch...");
+
+            m_PatchLongUsernames.Remove();
+
+            m_Logger.Info("Removed long usernames patch.");
+        }
+    }
+
     if (m_BugFixesFeatures.DisabledWindow)
     {
         // Remove disabled window patch.

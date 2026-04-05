@@ -31,6 +31,7 @@ void FeaturesFile::Load()
             m_BugFixesFeatures.IncorrectBikeRoadRules               = bugFixesNode["IncorrectBikeRoadRules"].as<bool>();
             m_BugFixesFeatures.IncorrectLobbyDeletedPopup           = bugFixesNode["IncorrectLobbyDeletedPopup"].as<bool>();
             m_BugFixesFeatures.DisabledWindow                       = bugFixesNode["DisabledWindow"].as<bool>();
+            m_BugFixesFeatures.LongUsernames                        = bugFixesNode["LongUsernames"].as<bool>();
 
             YAML::Node extraSettingsNode = yaml["ExtraSettings"];
             m_ExtraSettingsFeatures.Use24HourTimeFormat   = extraSettingsNode["Use24HourTimeFormat"].as<bool>();
@@ -38,10 +39,19 @@ void FeaturesFile::Load()
             m_ExtraSettingsFeatures.DisableWebcam         = extraSettingsNode["DisableWebcam"].as<bool>();
             m_ExtraSettingsFeatures.DisableCursorClipping = extraSettingsNode["DisableCursorClipping"].as<bool>();
 
+            YAML::Node enhancementsNode = yaml["Enhancements"];
+            m_EnhancementsFeatures.AnyVehicleTypeOnline = enhancementsNode["AnyVehicleTypeOnline"].as<bool>();
+            m_EnhancementsFeatures.DisableInfiniteGears = enhancementsNode["DisableInfiniteGears"].as<bool>();
+
             YAML::Node removedStuffNode = yaml["RemovedStuff"];
             m_RemovedStuffFeatures.CopsAndIslandPlayerIcons = removedStuffNode["CopsAndIslandPlayerIcons"].as<bool>();
             m_RemovedStuffFeatures.CarAchievements          = removedStuffNode["CarAchievements"].as<bool>();
             m_RemovedStuffFeatures.CrashCameraEffect        = removedStuffNode["CrashCameraEffect"].as<bool>();
+
+            YAML::Node hiddenStuffNode = yaml["HiddenStuff"];
+            m_HiddenStuffFeatures.DevLog           = hiddenStuffNode["DevLog"].as<bool>();
+            m_HiddenStuffFeatures.SatNavRotation   = hiddenStuffNode["SatNavRotation"].as<bool>();
+            m_HiddenStuffFeatures.PlaneVehicleType = hiddenStuffNode["PlaneVehicleType"].as<bool>();
         }
 
         m_Logger.Info("Loaded %s.", k_Name);
@@ -68,6 +78,7 @@ void FeaturesFile::Save() const
             bugFixesNode["IncorrectBikeRoadRules"]               = m_BugFixesFeatures.IncorrectBikeRoadRules;
             bugFixesNode["IncorrectLobbyDeletedPopup"]           = m_BugFixesFeatures.IncorrectLobbyDeletedPopup;
             bugFixesNode["DisabledWindow"]                       = m_BugFixesFeatures.DisabledWindow;
+            bugFixesNode["LongUsernames"]                        = m_BugFixesFeatures.LongUsernames;
             yaml["BugFixes"] = bugFixesNode;
 
             YAML::Node extraSettingsNode;
@@ -77,11 +88,22 @@ void FeaturesFile::Save() const
             extraSettingsNode["DisableCursorClipping"] = m_ExtraSettingsFeatures.DisableCursorClipping;
             yaml["ExtraSettings"] = extraSettingsNode;
 
+            YAML::Node enhancementsNode;
+            enhancementsNode["AnyVehicleTypeOnline"] = m_EnhancementsFeatures.AnyVehicleTypeOnline;
+            enhancementsNode["DisableInfiniteGears"] = m_EnhancementsFeatures.DisableInfiniteGears;
+            yaml["Enhancements"] = enhancementsNode;
+
             YAML::Node removedStuffNode;
             removedStuffNode["CopsAndIslandPlayerIcons"] = m_RemovedStuffFeatures.CopsAndIslandPlayerIcons;
             removedStuffNode["CarAchievements"]          = m_RemovedStuffFeatures.CarAchievements;
             removedStuffNode["CrashCameraEffect"]        = m_RemovedStuffFeatures.CrashCameraEffect;
             yaml["RemovedStuff"] = removedStuffNode;
+
+            YAML::Node hiddenStuffNode;
+            hiddenStuffNode["DevLog"]           = m_HiddenStuffFeatures.DevLog;
+            hiddenStuffNode["SatNavRotation"]   = m_HiddenStuffFeatures.SatNavRotation;
+            hiddenStuffNode["PlaneVehicleType"] = m_HiddenStuffFeatures.PlaneVehicleType;
+            yaml["HiddenStuff"] = hiddenStuffNode;
         }
         file.Write(YAML::Dump(yaml));
 
@@ -103,7 +125,17 @@ ExtraSettingsFeatures& FeaturesFile::GetExtraSettingsFeatures()
     return m_ExtraSettingsFeatures;
 }
 
+EnhancementsFeatures& FeaturesFile::GetEnhancementsFeatures()
+{
+    return m_EnhancementsFeatures;
+}
+
 RemovedStuffFeatures& FeaturesFile::GetRemovedStuffFeatures()
 {
     return m_RemovedStuffFeatures;
+}
+
+HiddenStuffFeatures& FeaturesFile::GetHiddenStuffFeatures()
+{
+    return m_HiddenStuffFeatures;
 }

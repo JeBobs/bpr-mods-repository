@@ -13,6 +13,7 @@ struct BugFixesFeatures
     bool IncorrectBikeRoadRules = true;
     bool IncorrectLobbyDeletedPopup = true;
     bool DisabledWindow = true;
+    bool LongUsernames = true;
 };
 
 struct ExtraSettingsFeatures
@@ -23,11 +24,24 @@ struct ExtraSettingsFeatures
     bool DisableCursorClipping = true;
 };
 
+struct EnhancementsFeatures
+{
+    bool AnyVehicleTypeOnline = true;
+    bool DisableInfiniteGears = true;
+};
+
 struct RemovedStuffFeatures
 {
     bool CopsAndIslandPlayerIcons = true;
     bool CarAchievements = true;
     bool CrashCameraEffect = true;
+};
+
+struct HiddenStuffFeatures
+{
+    bool DevLog = true;
+    bool SatNavRotation = true;
+    bool PlaneVehicleType = true;
 };
 
 
@@ -42,7 +56,9 @@ public:
 
     BugFixesFeatures& GetBugFixesFeatures();
     ExtraSettingsFeatures& GetExtraSettingsFeatures();
+    EnhancementsFeatures& GetEnhancementsFeatures();
     RemovedStuffFeatures& GetRemovedStuffFeatures();
+    HiddenStuffFeatures& GetHiddenStuffFeatures();
 
 private:
     Core::Path m_FilePath;
@@ -50,5 +66,7 @@ private:
 
     BugFixesFeatures m_BugFixesFeatures;
     ExtraSettingsFeatures m_ExtraSettingsFeatures;
+    EnhancementsFeatures m_EnhancementsFeatures;
     RemovedStuffFeatures m_RemovedStuffFeatures;
+    HiddenStuffFeatures m_HiddenStuffFeatures;
 };

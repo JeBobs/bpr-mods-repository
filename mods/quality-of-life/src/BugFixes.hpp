@@ -30,4 +30,5 @@ private:
     Core::Patch m_PatchIncorrectBikeRoadRules;
     Core::Patch m_PatchIncorrectLobbyDeletedPopup;
     Core::Patch m_PatchDisabledWindow;
+    Core::Patch m_PatchLongUsernames;
 };
